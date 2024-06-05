@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.ediary.db.user.enums.UserStatus;
 
 import java.time.LocalDateTime;
 
@@ -24,11 +25,15 @@ public class UserEntity {
     @Column(nullable = false, length = 50)
     private String nickname;
 
-    @Column(nullable = false, length = 45)
+    @Column(nullable = false, length = 200)
     private String password;
 
     @Column(nullable = false, length = 100)
     private String email;
+
+    @Column(nullable = false, length = 45)
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
 
     private LocalDateTime registeredAt;
 
