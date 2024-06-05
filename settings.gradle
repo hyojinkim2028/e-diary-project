@@ -1,0 +1,4 @@
+rootProject.name = 'ediary'
+include 'db'
+include 'api'
+
