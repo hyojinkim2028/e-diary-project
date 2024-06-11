@@ -2,6 +2,7 @@ package org.ediary.api.exception;
 
 import lombok.Getter;
 import org.ediary.api.common.error.ErrorCodeIfs;
+import org.ediary.api.common.error.TokenErrorCode;
 
 @Getter
 public class ApiException extends RuntimeException implements ApiExceptionIfs{
