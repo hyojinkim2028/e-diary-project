@@ -1,10 +1,10 @@
-package org.ediary.api.domain.jwttoken;
+package org.ediary.api.domain.jwtauth;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
-import org.ediary.db.member.model.JwtToken;
+import org.ediary.api.domain.jwtauth.model.JwtToken;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,11 +24,19 @@ import java.util.stream.Collectors;
 @Component
 public class JwtTokenProvider {
     private final Key key;
+    private final Long accessTokenPlusHour;
+    private final Long refreshTokenPlusHour;
 
     // application.yml에서 secret 값 가져와서 key에 저장
-    public JwtTokenProvider(@Value("${jwt.secret.key}") String secretKey) {
+    public JwtTokenProvider(
+            @Value("${jwt.secret.key}") String secretKey,
+            @Value("${jwt.access-token.plus-hour}") Long accessTokenPlusHour,
+            @Value("${jwt.refresh-token.plus-hour}") Long refreshTokenPlusHour
+    ) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
+        this.accessTokenPlusHour = accessTokenPlusHour;
+        this.refreshTokenPlusHour = refreshTokenPlusHour;
     }
 
     // Member 정보를 가지고 AccessToken, RefreshToken을 생성하는 메서드
@@ -41,7 +49,7 @@ public class JwtTokenProvider {
         long now = (new Date()).getTime();
 
         // Access Token 생성
-        Date accessTokenExpiresIn = new Date(now + 86400000);
+        Date accessTokenExpiresIn = new Date(now + accessTokenPlusHour);
         String accessToken = Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim("auth", authorities)
@@ -51,7 +59,7 @@ public class JwtTokenProvider {
 
         // Refresh Token 생성
         String refreshToken = Jwts.builder()
-                .setExpiration(new Date(now + 86400000))
+                .setExpiration(new Date(now + refreshTokenPlusHour))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 

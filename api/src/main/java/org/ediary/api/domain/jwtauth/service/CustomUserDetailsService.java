@@ -1,4 +1,4 @@
-package org.ediary.api.domain.jwttoken;
+package org.ediary.api.domain.jwtauth.service;
 
 import lombok.RequiredArgsConstructor;
 import org.ediary.db.member.model.Member;

@@ -1,4 +1,4 @@
-package org.ediary.db.member.model;
+package org.ediary.db.member.model.enums;
 
 import lombok.AllArgsConstructor;
 

@@ -3,13 +3,15 @@ package org.ediary.api.filter;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.ediary.api.domain.jwttoken.JwtTokenProvider;
+import lombok.extern.slf4j.Slf4j;
+import org.ediary.api.domain.jwtauth.JwtTokenProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 
+@Slf4j
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends GenericFilter {
 
@@ -37,4 +39,5 @@ public class JwtAuthenticationFilter extends GenericFilter {
         }
         return null;
     }
+
 }

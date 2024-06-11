@@ -2,18 +2,17 @@ package org.ediary.db.member.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.ediary.db.member.model.enums.MemberRole;
+import org.ediary.db.member.model.enums.MemberStatus;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
-@Getter
+@Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
@@ -39,7 +38,7 @@ public class Member implements UserDetails {
 
     @Column(nullable = false, length = 45)
     @Enumerated(EnumType.STRING)
-    private JwtResponse.UserStatus status;
+    private MemberStatus status;
 
     private LocalDateTime registeredAt;
 
