@@ -4,12 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.ediary.db.member.model.enums.MemberRole;
 import org.ediary.db.member.model.enums.MemberStatus;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.List;
+
 
 @Entity
 @Data
@@ -17,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode(of = "id")
-public class Member implements UserDetails {
+public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,8 +22,8 @@ public class Member implements UserDetails {
     @Column(nullable = false, length = 50)
     private String nickname;
 
-    @Column(name = "email", nullable = false)
-    private String username;
+    @Column(nullable = false, length = 100)
+    private String email;
 
     @Column(nullable = false, length = 200)
     private String password;
@@ -46,39 +42,6 @@ public class Member implements UserDetails {
 
     private LocalDateTime lastLoginAt;
 
-
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return this.roles.stream()
-//                .map(SimpleGrantedAuthority::new)
-//                .collect(Collectors.toList());
-//    }
-
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }
 
 

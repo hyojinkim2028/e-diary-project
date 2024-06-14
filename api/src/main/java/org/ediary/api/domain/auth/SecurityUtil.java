@@ -1,4 +1,4 @@
-package org.ediary.api.domain.jwtauth;
+package org.ediary.api.domain.auth;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

@@ -1,15 +1,14 @@
-package org.ediary.api.domain.jwtauth.model;
+package org.ediary.api.domain.auth.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
 @Builder
-public class JwtResponse {
+@Data
+@AllArgsConstructor
+public class JwtToken {
+    private String grantType;
     private String accessToken;
     private String refreshToken;
 }
