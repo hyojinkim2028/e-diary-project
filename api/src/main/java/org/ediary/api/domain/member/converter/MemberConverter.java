@@ -38,12 +38,4 @@ public class MemberConverter {
                 .build();
 
     }
-
-//    public MemberResponse toResponse(UserSession userSession){
-//        return MemberResponse.builder()
-//                .id(userSession.getId())
-//                .email(userSession.getEmail())
-//                .role(userSession.getRole())
-//                .build();
-//    }
 }

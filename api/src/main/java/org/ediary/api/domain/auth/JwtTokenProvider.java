@@ -16,6 +16,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -28,11 +30,9 @@ public class JwtTokenProvider {
     private final Key key;
     private final Long accessTokenPlusHour;
     private final Long refreshTokenPlusHour;
-    private final MemberRepository memberRepository;
 
     // application.yml에서 secret 값 가져와서 key에 저장
     public JwtTokenProvider(
-            MemberRepository memberRepository,
             @Value("${jwt.secret.key}") String secretKey,
             @Value("${jwt.access-token.plus-hour}") Long accessTokenPlusHour,
             @Value("${jwt.refresh-token.plus-hour}") Long refreshTokenPlusHour
@@ -41,7 +41,6 @@ public class JwtTokenProvider {
         this.key = Keys.hmacShaKeyFor(keyBytes);
         this.accessTokenPlusHour = accessTokenPlusHour;
         this.refreshTokenPlusHour = refreshTokenPlusHour;
-        this.memberRepository = memberRepository;
     }
 
     // Member 정보를 가지고 AccessToken, RefreshToken을 생성하는 메서드
@@ -51,22 +50,35 @@ public class JwtTokenProvider {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
-        long now = (new Date()).getTime();
+        // accessTokenExpiredAt
+        var accessTokenExpired = LocalDateTime.now().plusHours(accessTokenPlusHour);
+        var accessTokenExpiredAt = Date.from(
+                accessTokenExpired.atZone(
+                        ZoneId.systemDefault()
+                ).toInstant()
+        );
+
+        // refreshTokenExpiredAt
+        var refreshTokenExpired = LocalDateTime.now().plusHours(refreshTokenPlusHour);
+        var refreshTokenExpiredAt = Date.from(
+                refreshTokenExpired.atZone(
+                        ZoneId.systemDefault()
+                ).toInstant()
+        );
 
 
         // Access Token 생성
-        Date accessTokenExpiresIn = new Date(now + 1000000000);
         String accessToken = Jwts.builder()
                 .setId(Long.toString(id))
                 .setSubject(authentication.getName())
                 .claim("auth", authorities)
-                .setExpiration(accessTokenExpiresIn)
+                .setExpiration(accessTokenExpiredAt)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
         // Refresh Token 생성
         String refreshToken = Jwts.builder()
-                .setExpiration(new Date(now + refreshTokenPlusHour))
+                .setExpiration(refreshTokenExpiredAt)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
@@ -91,13 +103,7 @@ public class JwtTokenProvider {
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
 
-        // UserDetails 객체를 만들어서 Authentication return
-        // UserDetails: interface, User: UserDetails를 구현한 class
-        // user id 넘겨줌
         UserDetails principal = new User(claims.getId(),"",authorities);
-//        UserDetails principal = new User(claims.getSubject(), "",authorities);
-//        var principal = new UserSession(claims.getSubject())
-
 
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
