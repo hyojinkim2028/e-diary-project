@@ -6,7 +6,6 @@ import {useState} from "react"
 
 const DiaryList = ({data}) => {
 
-    console.log(data);
     const nav = useNavigate(); 
     const [sortType, setSortType] = useState("latest")
  
