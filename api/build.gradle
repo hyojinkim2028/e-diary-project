@@ -65,7 +65,7 @@ jar {
     enabled = false
 }
 
-def frontendDir = "$projectDir/src/main/frontend"
+def frontendDir = "$projectDir/src/main/front"
 
 sourceSets {
     main {
