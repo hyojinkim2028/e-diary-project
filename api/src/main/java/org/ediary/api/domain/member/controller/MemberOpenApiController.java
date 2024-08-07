@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("open-api/members")
+@RequestMapping("/open-api/members")
 public class MemberOpenApiController {
     private final MemberBusiness memberBusiness;
 
@@ -30,12 +30,13 @@ public class MemberOpenApiController {
 
 
     @PostMapping("/sign-in")
-    public JwtToken signIn(@Valid @RequestBody SignInDto signInDto ) {
+    public Api<JwtToken> signIn(@Valid @RequestBody SignInDto signInDto ) {
         String username = signInDto.getUsername();
         String password = signInDto.getPassword();
         JwtToken response = memberBusiness.signIn(username, password);
-        return response;
+        return Api.OK(response);
     }
+
 
 
 }

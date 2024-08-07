@@ -23,12 +23,15 @@ public class DiaryService {
     public DiaryEntity create(
             DiaryEntity diaryEntity
     ) {
-        return Optional.ofNullable(diaryEntity)
-                .map( diary -> {
-                    diary.setCreatedAt(LocalDateTime.now());
-                    return diaryRepository.save(diary);
-                })
-                .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT));
+//        return Optional.ofNullable(diaryEntity)
+//                .map( diary -> {
+//                    diary.setCreatedAt(LocalDateTime.now());
+//                    return diaryRepository.save(diary);
+//                })
+//                .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT));
+        return diaryRepository.save(diaryEntity);
+
+
 
     }
 
@@ -43,20 +46,18 @@ public class DiaryService {
     }
 
     public DiaryEntity update(
-            Long id,
             DiaryEntity diaryEntity
     ) {
 
-        var isExist = diaryRepository.findById(id).orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT));
+//        var isExist = diaryRepository.findById(id).orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT));
 
-        return Optional.ofNullable(diaryEntity)
-                .map( diary -> {
-                    diary.setCreatedAt(isExist.getCreatedAt());
-                    diary.setUpdatedAt(LocalDateTime.now());
-                    return diaryRepository.save(diary);
-                })
-                .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT));
-
+//        return Optional.ofNullable(diaryEntity)
+//                .map( diary -> {
+//                    diary.setCreatedAt(isExist.getCreatedAt());
+//                    return diaryRepository.save(diary);
+//                })
+//                .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT));
+        return diaryRepository.save(diaryEntity);
     }
 
     public void delete(Long id) {

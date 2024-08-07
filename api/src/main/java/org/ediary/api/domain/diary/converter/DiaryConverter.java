@@ -19,8 +19,9 @@ public class DiaryConverter {
                 .map(it -> {
                     return DiaryEntity.builder()
                             .memberId(memberId)
-                            .title(request.getTitle())
+                            .emotionId(request.getEmotionId())
                             .content(request.getContent())
+                            .createdAt(request.getCreatedAt())
                             .build();
                 })
                 .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT));
@@ -33,8 +34,9 @@ public class DiaryConverter {
                     return DiaryEntity.builder()
                             .id(id)
                             .memberId(memberId)
-                            .title(request.getTitle())
+                            .emotionId(request.getEmotionId())
                             .content(request.getContent())
+                            .createdAt(request.getCreatedAt())
                             .build();
                 })
                 .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT));
@@ -44,10 +46,10 @@ public class DiaryConverter {
         return Optional.ofNullable(diaryEntity)
                 .map(it -> {
                     return DiaryResponse.builder()
-                        .title(diaryEntity.getTitle())
+                        .id(diaryEntity.getId())
+                        .emotionId(diaryEntity.getEmotionId())
                         .content(diaryEntity.getContent())
                         .createdAt(diaryEntity.getCreatedAt())
-                        .updatedAt(diaryEntity.getUpdatedAt())
                         .build();
                 })
                 .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT));

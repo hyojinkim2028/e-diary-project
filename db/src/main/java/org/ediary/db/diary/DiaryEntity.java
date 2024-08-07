@@ -23,17 +23,14 @@ public class DiaryEntity {
     @Column(nullable = false)
     private Long memberId;
 
-    @Column(length = 200, nullable = false)
-    private String title;
+    @Column(length = 10, nullable = false)
+    private String emotionId;
 
     @Column(length = 2000, nullable = false)
     private String content;
 
-    @Column()
+    @Column(nullable = false)
     private LocalDateTime createdAt;
-
-    @Column()
-    private LocalDateTime updatedAt;
 
     @Column()
     private LocalDateTime deletedAt;

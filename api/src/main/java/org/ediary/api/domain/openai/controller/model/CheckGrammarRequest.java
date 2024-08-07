@@ -16,11 +16,15 @@ public class CheckGrammarRequest {
         this.messages.add(new Message(
                 "system",
                 "Check the prompt sentence for grammar errors ams please follow this format for your response\"" +
-                        "corrected_sentence : If errors exist, give the corrected sentence. or else give ok\"" +
-                        "korean : corrected_sentence in korean\"" +
-                        "reason : give one detail reason to grammar errors(in korean and in a conversational tone)"));
+                        "If there is no error give only \"알맞게 잘 입력하셨습니다. \" and quit reply." +
+                        "If errors exist, give the corrected sentence and reason please follow this format.(only reason is in Korean,informal speech)\n" +
+                        "correct_sentence : give corrected sentence \n" +
+                        "reason : give errors detail reason"
+        ));
+
         this.messages.add(new Message(
                 "user",
                 prompt));
     }
 }
+

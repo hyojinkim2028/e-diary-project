@@ -4,7 +4,9 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
+import org.ediary.api.common.error.TokenErrorCode;
 import org.ediary.api.domain.auth.model.JwtToken;
+import org.ediary.api.exception.ApiException;
 import org.ediary.db.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -117,15 +119,14 @@ public class JwtTokenProvider {
                     .parseClaimsJws(token);
             return true;
         } catch (SecurityException | MalformedJwtException e) {
-            log.info("Invalid JWT Token", e);
+            throw new ApiException(TokenErrorCode.INVALID_TOKEN);
         } catch (ExpiredJwtException e) {
-            log.info("Expired JWT Token", e);
+            throw new ApiException(TokenErrorCode.EXPIRED_TOKEN);
         } catch (UnsupportedJwtException e) {
-            log.info("Unsupported JWT Token", e);
+            throw new ApiException(TokenErrorCode.UNSUPPORTED_TOKEN);
         } catch (IllegalArgumentException e) {
-            log.info("JWT claims string is empty.", e);
+            throw new ApiException(TokenErrorCode.AUTHORIZATION_TOKEN_NOT_FOUND);
         }
-        return false;
     }
 
 

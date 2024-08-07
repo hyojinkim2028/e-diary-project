@@ -8,7 +8,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CheckGrammarResponse {
+public class AIResponse {
     private List<Choice> choices;
 
 

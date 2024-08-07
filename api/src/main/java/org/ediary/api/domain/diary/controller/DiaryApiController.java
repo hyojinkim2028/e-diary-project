@@ -29,7 +29,7 @@ public class DiaryApiController {
             @AuthenticationPrincipal UserDetails userDetails,
 
             @Valid @RequestBody Api<DiaryCreateRequest> request
-    ){
+    ){        System.out.println("request: "+ request );
         var memberId = Long.parseLong(userDetails.getUsername());
         var response = diaryBusiness.create(request.getBody(), memberId);
 

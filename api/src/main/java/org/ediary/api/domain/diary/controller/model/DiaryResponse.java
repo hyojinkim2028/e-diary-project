@@ -13,11 +13,12 @@ import java.time.LocalDateTime;
 @Builder
 public class DiaryResponse {
 
-    private String title;
+    private Long id;
+
+    private String emotionId;
 
     private String content;
 
     private LocalDateTime createdAt;
 
-    private LocalDateTime updatedAt;
 }

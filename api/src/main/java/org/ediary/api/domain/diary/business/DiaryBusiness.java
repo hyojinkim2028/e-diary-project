@@ -38,7 +38,7 @@ public class DiaryBusiness {
     ) {
         // req -> entity -> res
         var entity = diaryConverter.toEntity(id, diaryCreateRequest, memberId);
-        var newEntity = diaryService.update(id, entity);
+        var newEntity = diaryService.update(entity);
         var response = diaryConverter.toResponse(newEntity);
 
         return response;
